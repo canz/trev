@@ -1,0 +1,70 @@
+sudo docker pull linuxserver/plex
+
+sudo docker create \
+--name=plex \
+--net=host \
+--restart=always \
+-e VERSION=latest \
+-e PUID=1001 -e PGID=1001 \
+-e TZ=Australia/Queensland \
+-v /home/docker/plex/config:/config \
+-v /home/docker/plex/tvshows:/data/tvshows \
+-v /home/docker/plex/movies:/data/movies \
+-v /home/docker/plex/transcode:/transcode \
+-v /home/docker/plex/transcode:/transcode \
+-v /mnt/storage:/storage \
+linuxserver/plex
+
+sudo docker start plex
+http://192.168.10.245:32400/web/index.html#
+
+
+sudo docker pull linuxserver/sickbeard
+
+docker create --name=sickbeard \
+-v /home/docker/sickbeard/config:/config \
+-v /home/docker/sickbeard/downloads:/downloads \
+-v /home/docker/sickbeard/tv:/tv \
+-v /mnt/storage:/storage \
+-e PGID=1001 -e PUID=1001 \
+-e TZ=Australia/Queensland \
+-p 8081:8081 \
+linuxserver/sickbeard
+
+sudo docker start sickbeard
+
+http://192.168.10.245:8081/home/
+
+
+
+
+
+sudo docker pull linuxserver/couchpotato
+
+docker create \
+    --name=couchpotato \
+    -v /home/docker/couchpotato/config:/config \
+    -v /home/docker/couchpotato/downloads:/downloads \
+    -v /home/docker/couchpotato/movies:/movies \
+    -v /mnt/storage:/storage \
+    -e PGID=1001 -e PUID=1001  \
+    -e TZ=Australia/Queensland \
+    -e UMASK_SET=022 \
+    -p 5050:5050 \
+    linuxserver/couchpotato
+
+ sudo docker start couchpotato 
+
+
+
+sudo docker pull linuxserver/sabnzbd 
+
+docker create --name=sabnzbd \
+-v /home/docker/sabnzbd/config:/config \
+-v /home/docker/sabnzbd/downloads:/downloads \
+-v /home/docker/sabnzbd/incomplete:/incomplete-downloads \
+-v /mnt/storage:/storage \
+-e PGID=1001 -e PUID=1001 \
+-e TZ=Australia/Queensland \
+-p 8080:8080 -p 9090:9090 \
+linuxserver/sabnzbd
